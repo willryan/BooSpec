@@ -13,13 +13,14 @@ Usage
 Note that you MUST use semicolons between lines in callable blocks.
 
 class MyTest(BooSpec):
+
 	def Spec(): // define your spec inside here
-    Describe("functional area", {
+		Describe("functional area", {
 			Before() {
 				doSomeSetup();
 				useSemicolonsBetween("Lines");
-      }); # don't forget this semicolon
-      Describe("subarea", {
+			}); # don't forget this semicolon
+			Describe("subarea", {
 				Before() {
 					moreSetup();
 				});
@@ -31,7 +32,7 @@ class MyTest(BooSpec):
 					Expr(myObject.Add(2,5)).Should(BeGreaterThan(6))
 				});
 				After() {
-				 cleanup();	
+					cleanup();	
 				});
 			});
 		});
