@@ -1,3 +1,5 @@
+import UnityEngine
+
 # BooSpec - based on RSpec.  This is VERY much a work-in-progress.
 # I may rework a great deal of the interior.  I am sure I missed important
 # things.  This is just to get the ball rolling so I can develop games 
