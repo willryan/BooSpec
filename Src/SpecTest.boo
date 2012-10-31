@@ -1,9 +1,11 @@
+namespace BooSpec
+
 # a "compiled" test ready for execution - has a list of befores to run,
 # a test to run, and a list of afters to run (which are ensured to run 
 # once the test begins)
 # 
 # TODO: replace with a tree structure
-class BooTest(): 
+class SpecTest(): 
 	protected _test as callable
 	protected _descList as List
 	protected _beforeList as List
@@ -15,11 +17,21 @@ class BooTest():
 		_beforeList = beforeList
 		_afterList = afterList
 		
-	def Execute():
+	def Execute(hub as SpecEventHub):
 		for before as callable in _beforeList:
+			hub.fireEvent('before', [self])
 			before()
 		try:
+			hub.fireEvent('execute_test', [self])
 			_test()
 		ensure:
 			for after as callable in _afterList:
+				hub.fireEvent('after', [self])
 				after()
+
+	def GetDescriptionList() as List:
+		return _descList
+
+	def GetDescription() as string:
+		return _descList.Join(" ")
+
