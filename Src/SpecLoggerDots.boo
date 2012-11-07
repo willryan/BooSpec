@@ -17,8 +17,9 @@ class SpecLoggerDots (SpecPlugin):
       Console.Write(".")
 
     hub.onEvent('test_failed') do(args as List):
-      test as SpecTest = args[0]
-      error as Exception = args[1]
+      test as SpecIt = args[0]
+      context as List[of SpecDescribe] = args[1]
+      error as Exception = args[2]
       _failCount += 1
       Console.ForegroundColor = ConsoleColor.Red
       Console.Write("F")
