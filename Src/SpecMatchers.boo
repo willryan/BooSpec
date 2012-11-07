@@ -30,11 +30,19 @@ class SpecMatchers:
   def SetDefaultMatchers():
     SetMatcher("Equal", SpecMatcher({'eval': { check, expectedValue | 
         return check == expectedValue;
-        }, 'valueText': "equal"}))
+      }, 'valueText': "equal"}))
+
+    SetMatcher("Be", SpecMatcher({'eval': { check, expectedValue |
+        return check == expectedValue;
+      }, 'valueText': "equal"}))
       
+    SetMatcher("BeNull", SpecMatcher({'eval': { check, expectedValue |
+        return check == null;
+      }, 'valueText': 'be null'})) 
+
     SetMatcher("BeGreaterThan", SpecMatcher({'eval': { check, expectedValue |
         return check cast double > expectedValue cast double;
-      }, 'valueText': "greater than"}))	
+      }, 'valueText': "greater than"}))  
       
     SetMatcher("BeGreaterThanOrEqualTo", SpecMatcher({'eval': { check, expectedValue |
         return check cast double >= expectedValue cast double;
