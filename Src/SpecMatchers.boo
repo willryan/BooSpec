@@ -1,5 +1,7 @@
 namespace BooSpec
 
+import System
+
 class SpecMatchers:
 
   _matchers as Hash
@@ -35,6 +37,10 @@ class SpecMatchers:
     SetMatcher("Be", SpecMatcher({'eval': { check, expectedValue |
         return check == expectedValue;
       }, 'valueText': "equal"}))
+
+    SetMatcher("BeNear", SpecMatcher({'eval': { check, expectedValue |
+        return Math.Abs(check cast double - expectedValue cast double) < 0.0001;
+      }, 'valueText': 'near'}))
       
     SetMatcher("BeNull", SpecMatcher({'eval': { check, expectedValue |
         return check == null;
