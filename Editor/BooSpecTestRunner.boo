@@ -1,15 +1,16 @@
-import UnityEngine
 import UnityEditor
 import System
 import System.Collections.Generic
 import System.Linq
 import System.Reflection
+import BooSpec
 
 class BooSpecTestRunner:
 	[MenuItem("BooSpec/Run All Specs %#s")]
 	private static def RunAllTests():
 		ClearDebugLog()
-		runner as BooSpecRunner = BooSpecRunner()
+		runner as SpecRunner = SpecRunner()
+		runner.AddPlugin(BooSpecLoggerUnity())
 		FindAndAddAllTestCases(runner)
 		runner.Run()
 		
@@ -19,14 +20,14 @@ class BooSpecTestRunner:
 		method as MethodInfo = type.GetMethod("Clear")
 		method.Invoke(object(), null)
 
-	private static def FindAndAddAllTestCases(runner as BooSpecRunner):
+	private static def FindAndAddAllTestCases(runner as SpecRunner):
     testCaseTypes as IEnumerable[of Type] = AppDomain.CurrentDomain.GetAssemblies()\
     	.Select({x | return x.GetTypes()})\
     	.SelectMany({x | return x})\
     	.Where({c | return (not c.IsAbstract)})\
-    	.Where({c | return c.IsSubclassOf(BooSpec)}) # typeof
+    	.Where({c | return c.IsSubclassOf(Spec)}) # typeof
     for testCaseType as Type in testCaseTypes:
-      runner.AddAll(testCaseType)
+      runner.AddSpecType(testCaseType)
 
 	
 		
