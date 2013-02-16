@@ -16,17 +16,19 @@ class BooSpecMain:
     runner as SpecRunner = SpecRunner()
     logFormat = argsHash['format'] or 'dots'
     runner.AddPlugin(_loggers[logFormat] as SpecPlugin)
-    FindAndAddAllTestCases(runner)
+    specName = argsHash['spec'] or null
+    FindAndAddAllTestCases(runner, specName)
     runner.Run()
 
-  def FindAndAddAllTestCases(runner as SpecRunner):
+  def FindAndAddAllTestCases(runner as SpecRunner, specName as string):
     #assemblies = [item for item in AppDomain.CurrentDomain.GetAssemblies()]
     assemblies = AppDomain.CurrentDomain.GetAssemblies()
     for asm in assemblies:
       for typ in asm.GetTypes():
         if not typ.IsAbstract:
           if typ.IsSubclassOf(Spec):
-            runner.AddSpecType(typ)
+            if specName == null or specName == typ.ToString():
+              runner.AddSpecType(typ)
 
   def ParseArgs(args as (string)) as Hash:
     argsHash = {}
@@ -36,6 +38,8 @@ class BooSpecMain:
       value = r.Groups["value"].Value
       if key == "f":
         argsHash['format'] = value
+      elif key == "spec":
+        argsHash['spec'] = value
       else:
         Console.WriteLine("unknown argument: $(arg)")
       

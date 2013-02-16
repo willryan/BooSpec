@@ -23,7 +23,10 @@ class SpecLoggerDots (SpecPlugin):
       _failCount += 1
       Console.ForegroundColor = ConsoleColor.Red
       Console.Write("F")
-      _failures.Add("Test failed - $(test.GetDescription()): $(error)")
+      desc = ''
+      for specLevel in context:
+        desc += specLevel.GetDescription() + " "
+      _failures.Add("Test failed - $(desc) $(test.GetDescription()): $(error)")
 
     hub.onEvent('end_all_specs') do(args as List):
       Console.WriteLine("")

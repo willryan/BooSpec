@@ -28,6 +28,7 @@ class SpecIt (SpecDescribe):
         if before:
           before()
       _content()
+      System.GC.Collect()
       for desc as SpecDescribe in reversed(context):
         after = desc.GetAfter()
         if after:
